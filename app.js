@@ -64,6 +64,10 @@ function createGame(msg) {
 }
 
 function guess(msg) {
+	if(msg.member.user.id === game.lastGuess) {
+		msg.reply("You guessed last round!"); 
+		return;
+	}
 	if(!game.started) {
 		msg.reply("Please start a game first!"); 
 		return;
@@ -98,6 +102,7 @@ function guess(msg) {
 	}
 	else { // well you fucked up
 		msg.reply({content:"here is the board!", files:[getBoard()]});
+		game.lastGuess = msg.member.user.id;
 	}
 }
 
