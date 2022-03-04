@@ -2,8 +2,6 @@
 Wordle but with friends as a discord bot
 
 ### **Commands**
----
-
 | Command | Description | 
 |-|-|
 | `/start` | Starts a new game |
@@ -11,7 +9,6 @@ Wordle but with friends as a discord bot
 | `/guess :word <guess>` | Make a guess in the current game where `:word` is your guess |
 
 ### **Running**
----
 
 if you want to use it for whatever reason
 
