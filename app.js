@@ -107,7 +107,12 @@ function guess(msg) {
 }
 
 function board(msg) {
-	msg.reply({content:"here is the board!", files:[getBoard()]});
+	if(!game.started)
+		msg.reply("Game has not started yet!");
+	else if(game.guesses.length === 0)
+		msg.reply("No guesses yet! :eyes:");
+	else
+		msg.reply({content:"here is the board!", files:[getBoard()]});
 }
 
 client.once('ready', () => {
