@@ -105,7 +105,7 @@ function guess(msg) {
 		}
 		else
 		{
-			msg.reply({content:"You guessed "+word+", here is the board! you fucking cock sucker", files:[getBoard()]});
+			msg.reply({content:"You guessed "+word+", here is the board!", files:[getBoard()]});
 			game.lastGuess = msg.member.user.id;
 		}
 	}
