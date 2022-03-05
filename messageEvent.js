@@ -30,8 +30,7 @@ function getBoard() {
 			if(game.word.charAt(u) === game.guesses[i].charAt(u)) {
 				color = colors.green;
 			}
-			else if(game.word.includes(game.guesses[i].charAt(u)))
-			{
+			else if(game.word.includes(game.guesses[i].charAt(u))) {
 				color = colors.yellow;
 			}
 
