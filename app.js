@@ -109,7 +109,7 @@ function guess(msg) {
 		}
 		else
 		{
-			msg.reply({content:"here is the board!", files:[getBoard()]});
+			msg.reply({content:"You guessed "+word+", here is the board!", files:[getBoard()]});
 			game.lastGuess = msg.member.user.id;
 		}
 	}
