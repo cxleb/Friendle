@@ -1,18 +1,9 @@
 const { MessageAttachment } = require('discord.js');
 const { words } = require("./data.json");
 const Canvas = require('canvas');
+const sessions = require("./sessions.js");
 
-function Game(started, word) {
-	this.started = started;
-	this.word = word;
-	this.guesses = [];
-	this.gameTime = 0;
-	this.lastGuess = 0;
-	return this;
-}
-var game = Game(false, "");
-
-function getBoard() {
+function getBoard(game) {
 	const cellSize = 50;
 	if(game.guesses.length === 0)
 		return;
@@ -49,15 +40,16 @@ function getBoard() {
 	return attachment;
 }
 
-function createGame(msg) {
+function createGame(msg, game) {
 	if(Date.now() - game.gameTime < 360000) // one hour
 		msg.reply("Has not been an hour since the last game!");
 	const word = words[parseInt(Math.random() * words.length)];
-	game = Game(true, word);
+	game.word = word;
+	game.started = true;
 	msg.reply("Created a new game!");
 }
 
-function guess(msg) {
+function guess(msg, game) {
 	if(msg.member.user.id === game.lastGuess) {
 		msg.reply("You guessed last round!"); 
 		return;
@@ -88,39 +80,39 @@ function guess(msg) {
 	game.guesses.push(word);
 	if(word === game.word) {
 		game.started = false;
-		msg.reply({content:"Congradulations the word was found! :partying_face:", files:[getBoard()]});
+		msg.reply({content:"Congradulations the word was found! :partying_face:", files:[getBoard(game)]});
 	}
 	else { // well you fucked up
 		if(game.guesses.length === 6) {
 			game.started = false;
-			msg.reply({content:"Oh no you ran out of guesses! :slight_frown: The word was " + game.word, files:[getBoard()]});
+			msg.reply({content:"Oh no you ran out of guesses! :slight_frown: The word was " + game.word, files:[getBoard(game)]});
 			
 		} 
 		else {
-			msg.reply({content:"You guessed "+word+", here is the board!", files:[getBoard()]});
+			msg.reply({content:"You guessed "+word+", here is the board!", files:[getBoard(game)]});
 			game.lastGuess = msg.member.user.id;
 		}
 	}
 }
 
-function board(msg) {
+function board(msg, game) {
 	if(!game.started)
 		msg.reply("Game has not started yet!");
 	else if(game.guesses.length === 0)
 		msg.reply("No guesses yet! :eyes:");
 	else
-		msg.reply({content:"here is the board!", files:[getBoard()]});
+		msg.reply({content:"here is the board!", files:[getBoard(game)]});
 }
 
 exports.callback = function (msg) {
-    if (!msg.isCommand()) return;
+	let game = sessions.getGameByID(msg.channelId);
 	if(msg.commandName  === "start") {
-		createGame(msg);
+		createGame(msg, game);
 	}
 	else if(msg.commandName  === "guess") {
-		guess(msg);
+		guess(msg, game);
 	}
 	else if(msg.commandName  === "board") {
-		board(msg);
+		board(msg, game);
 	}
 };

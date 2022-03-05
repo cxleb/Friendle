@@ -8,6 +8,7 @@ client.once('ready', () => {
 });
 
 client.on('interactionCreate', msg => {
+    if (!msg.isCommand()) return;
     messageEvent.callback(msg);
 });
 
