@@ -98,7 +98,7 @@ function guess(msg) {
 	if(word === game.word)
 	{
 		game.started = false;
-		msg.reply({content:"Congradulations you won! :partying_face:", files:[getBoard()]});
+		msg.reply({content:"Congradulations the word was found! :partying_face:", files:[getBoard()]});
 	}
 	else { // well you fucked up
 		if(game.guesses.length === 6)
