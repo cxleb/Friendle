@@ -12,8 +12,7 @@ function Game(started, word) {
 }
 var game = Game(false, "");
 
-function getBoard()
-{
+function getBoard() {
 	const cellSize = 50;
 	if(game.guesses.length === 0)
 		return;
@@ -73,38 +72,32 @@ function guess(msg) {
 		msg.reply("Please enter a 5 letter word!");
 		return;
 	}
-	try
-	{
+	try {
 		if(word.match(/[a-z]/g).length!=5) {
 			msg.reply("Word should only contain letters!");	
 			return;
 		}
 	}
-	catch(e)
-	{	
+	catch(e) {	
 		msg.reply("Your guess should only contain letters!");	
 		return;
 	}
-	if(!words.includes(word))
-	{
+	if(!words.includes(word)) {
 		msg.reply(word + " is not a valid word!");	
 		return;
 	}
 	game.guesses.push(word);
-	if(word === game.word)
-	{
+	if(word === game.word) {
 		game.started = false;
 		msg.reply({content:"Congradulations the word was found! :partying_face:", files:[getBoard()]});
 	}
 	else { // well you fucked up
-		if(game.guesses.length === 6)
-		{
+		if(game.guesses.length === 6) {
 			game.started = false;
 			msg.reply({content:"Oh no you ran out of guesses! :slight_frown: The word was " + game.word, files:[getBoard()]});
 			
-		}
-		else
-		{
+		} 
+		else {
 			msg.reply({content:"You guessed "+word+", here is the board!", files:[getBoard()]});
 			game.lastGuess = msg.member.user.id;
 		}
