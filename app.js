@@ -86,12 +86,12 @@ function guess(msg) {
 	}
 	catch(e)
 	{	
-		msg.reply("Word should only contain letters!");	
+		msg.reply("Your guess should only contain letters!");	
 		return;
 	}
 	if(!words.includes(word))
 	{
-		msg.reply("Not a valid word!");	
+		msg.reply(word + " is not a valid word!");	
 		return;
 	}
 	game.guesses.push(word);
@@ -101,8 +101,17 @@ function guess(msg) {
 		msg.reply({content:"Congradulations you won! :partying_face:", files:[getBoard()]});
 	}
 	else { // well you fucked up
-		msg.reply({content:"here is the board!", files:[getBoard()]});
-		game.lastGuess = msg.member.user.id;
+		if(game.guesses.length === 6)
+		{
+			game.started = false;
+			msg.reply({content:"Oh no you ran out of guesses! :slight_frown: The word was " + game.word, files:[getBoard()]});
+			
+		}
+		else
+		{
+			msg.reply({content:"here is the board!", files:[getBoard()]});
+			game.lastGuess = msg.member.user.id;
+		}
 	}
 }
 
