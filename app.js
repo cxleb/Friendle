@@ -26,12 +26,12 @@ function getBoard()
 	
 	const gutter = 1;
 	const colors = {green:"#55FF44",grey:"#CCCCCC",yellow:"#FFDB58"};
-	for(var i = 0; i < game.guesses.length; i++) {
+	for(let i = 0; i < game.guesses.length; i++) {
 		const ycol = i * cellSize;
-		for(var u = 0; u < 5; u++) {
+		for(let u = 0; u < 5; u++) {
 			const xcol = u * cellSize;
 			// figure out what colour the leter is
-			var color = colors.grey;
+			let color = colors.grey;
 			if(game.word.charAt(u) === game.guesses[i].charAt(u)) {
 				color = colors.green;
 			}
@@ -58,7 +58,7 @@ function getBoard()
 function createGame(msg) {
 	if(Date.now() - game.gameTime < 360000) // one hour
 		msg.reply("Has not been an hour since the last game!");
-	var word = words[parseInt(Math.random() * words.length)];
+	const word = words[parseInt(Math.random() * words.length)];
 	game = Game(true, word);
 	msg.reply("Created a new game!");
 }
@@ -72,7 +72,7 @@ function guess(msg) {
 		msg.reply("Please start a game first!"); 
 		return;
 	}
-	var word = msg.options.getString('word').toLowerCase();
+	const word = msg.options.getString('word').toLowerCase();
 	if(word.length != 5) {
 		msg.reply("Please enter a 5 letter word!");
 		return;
