@@ -1,6 +1,6 @@
 const { MessageAttachment } = require('discord.js');
 const { words } = require("./data.json");
-const Canvas = require('canvas');
+const Canvas = require('canvas');	
 const sessions = require("./sessions.js");
 
 function getBoard(game) {
@@ -36,7 +36,7 @@ function getBoard(game) {
 		}
 	}
 
-	const attachment = new MessageAttachment(canvas.toBuffer(), 'profile-image.png');
+	const attachment = new MessageAttachment(canvas.toBuffer(), 'board.png');
 	return attachment;
 }
 
