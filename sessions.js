@@ -12,6 +12,11 @@ class Game {
 
 var games = {};
 
+exports.resetGameByID = function(id) {
+    games[id] = new Game();
+    return games[id];
+}
+
 exports.getGameByID = function(id) {
     if(games[id] === undefined)
         games[id] = new Game();

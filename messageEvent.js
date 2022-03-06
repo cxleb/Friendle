@@ -107,6 +107,7 @@ function board(msg, game) {
 exports.callback = function (msg) {
 	let game = sessions.getGameByID(msg.channelId);
 	if(msg.commandName  === "start") {
+		game = sessions.resetGameByID(msg.channelId);
 		createGame(msg, game);
 	}
 	else if(msg.commandName  === "guess") {
