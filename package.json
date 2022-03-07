@@ -11,7 +11,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node ./deployCommands.js",
     "start": "node ./app.js"
   }
 }
