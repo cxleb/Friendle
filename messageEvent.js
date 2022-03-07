@@ -63,21 +63,25 @@ function guess(msg, game) {
 		msg.reply("Please enter a 5 letter word!");
 		return;
 	}
-	try {
-		if(word.match(/[a-z]/g).length!=5) {
+	// check if the word contains letters only, we have to check if the result is undefined since match returns undefined when no matches are found
+	const letterCheck = word.match(/[a-z]/g);
+	if(letterCheck !== undefined) {
+		if(letterCheck.length!=5) {
 			msg.reply("Word should only contain letters!");	
 			return;
 		}
 	}
-	catch(e) {	
+	else {	
 		msg.reply("Your guess should only contain letters!");	
 		return;
 	}
+	// check if the word is actually a word
 	if(!words.includes(word)) {
 		msg.reply(word + " is not a valid word!");	
 		return;
 	}
-	if(!game.guesses.includes(word)) {
+	// check if the word was already guessed
+	if(game.guesses.includes(word)) {
 		msg.reply(word + " is already guesses!");	
 		return;
 	}
