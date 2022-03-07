@@ -77,6 +77,10 @@ function guess(msg, game) {
 		msg.reply(word + " is not a valid word!");	
 		return;
 	}
+	if(!game.guesses.includes(word)) {
+		msg.reply(word + " is already guesses!");	
+		return;
+	}
 	game.guesses.push(word);
 	if(word === game.word) {
 		game.started = false;
