@@ -66,7 +66,8 @@ function guess(msg, game) {
 	// check if the word contains letters only, we have to check if the result is undefined since match returns undefined when no matches are found
 	const letterCheck = word.match(/[a-z]/g);
 	if(letterCheck === undefined || letterCheck.length!=5) {
-			msg.reply("Your guess should only contain letters!");	
+		msg.reply("Your guess should only contain letters!");
+		return;
 	}
 	// check if the word is actually a word
 	if(!words.includes(word)) {
