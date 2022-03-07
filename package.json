@@ -8,5 +8,9 @@
     "canvas": "^2.9.0",
     "discord-api-types": "^0.27.3",
     "discord.js": "^13.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app.js"
   }
 }
