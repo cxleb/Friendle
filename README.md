@@ -19,5 +19,6 @@ make an app.json and include these things:
     "token": "bot token"
 }
 ```
-Make sure your Node runtime is the latest version and your platform supports `canvas` module
-Using npm, `npm install` and then to start run `npm start`, you enabled the application commands, allow sometime for discord to cache the commands
+Make sure your Node runtime is the latest version and your platform supports the `canvas` module.
+
+Using npm, `npm install` and `npm start`, if you enabled the application commands, allow sometime for discord to cache the commands.
