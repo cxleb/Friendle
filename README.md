@@ -20,4 +20,4 @@ make an app.json and include these things:
 }
 ```
 use npm to install `npm install`
-to start run `npm start`
+run `npm deploy` and then to start run `npm start`
