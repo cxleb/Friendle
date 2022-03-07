@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { application, guild, token } = require('./app.json');
+const { token } = require('./app.json');
 
 const commands = [
 	new SlashCommandBuilder()
@@ -21,10 +21,14 @@ const commands = [
 
 const rest = new REST({ version: '9' }).setToken(token);
 
-rest.put(Routes.applicationCommands(application), { body: commands })
-	.then(() => console.log('Successfully registered application commands.'))
-	.catch(console.error);
+module.exports.addApplicationCommands = (appid) => {
+	rest.put(Routes.applicationCommands(appid), { body: commands })
+		.then(() => console.log('Successfully registered application commands.'))
+		.catch(console.error);
+};
 
-rest.put(Routes.applicationGuildCommands(application, guild), { body: commands })
-	.then(() => console.log('Successfully registered application commands.'))
-	.catch(console.error);
+module.exports.addGuildCommands = (appid, guildid) => {
+	rest.put(Routes.applicationGuildCommands(appid, guildid), { body: commands })
+		.then(() => console.log('Successfully registered guild commands.'))
+		.catch(console.error);
+};
