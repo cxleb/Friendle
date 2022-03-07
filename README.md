@@ -15,7 +15,6 @@ if you want to use it for whatever reason
 make an app.json and include these things:
 ```
 {
-    "application": "your application id",
     "guild": "your server id",
     "token": "bot token"
 }
