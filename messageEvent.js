@@ -81,13 +81,13 @@ function guess(msg, game) {
 	if (word === game.word) {
 		game.started = false;
 		msg.reply({
-			content: "Congratulations, the word was found! 🥳",
+			content: "Congratulations, the word was found! :partying_face:",
 			files: [getBoard(game)]
 		});
 	} else if (game.guesses.length === 6) { // well you fucked up
 		game.started = false;
 		msg.reply({
-			content: `Oh no you ran out of guesses! 🙁 The word was ${game.word}`,
+			content: `Oh no you ran out of guesses! :slight_frown: The word was ${game.word}`,
 			files: [getBoard(game)]
 		});
 	} else {
@@ -103,7 +103,7 @@ function board(msg, game) {
 	if (!game.started) {
 		msg.reply("Game has not started yet!");
 	} else if (game.guesses.length === 0) {
-		msg.reply("No guesses yet! 👀");
+		msg.reply("No guesses yet! :eyes:");
 	} else {
 		msg.reply({
 			content: "Here is the board!",
