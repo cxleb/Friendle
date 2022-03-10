@@ -51,10 +51,6 @@ function createGame(msg, game) {
 	msg.reply("Created a new game!");
 }
 
-function messageReact(game, message)
-{
-}
-
 function guess(msg, game) {
 	if (msg.member.user.id === game.lastGuess) {
 		msg.reply("You guessed last round!"); 
@@ -99,25 +95,17 @@ function guess(msg, game) {
 			files: [getBoard(game)]
 		});
 	} else {
-		const usedLetters = new Set();
-		for (let i = 0; i < game.guesses.length; i++) {
-			let word = game.guesses[i];
-			for (let u = 0; u < 5; u++) {
-				if(!game.word.includes(word[u])) {
-					usedLetters.add(word[u]);
-				}
-			}
-		}
+		
 		let emojiChain = "";
 		const letters = "abcdefghijklmnopqrstuvwxyz".split("");
-		letters.filter(letter => usedLetters.has(letter) === false).forEach(letter => {
-			emojiChain += `:regional_indicator_${letter}:`;
-		});
+		const usedLetters = game.guesses.join("").split("").filter(letter => !game.word.includes(letter)).join("");
+		letters.filter(letter => !usedLetters.includes(letter)).forEach(letter => emojiChain += `:regional_indicator_${letter}:`);
+
 		msg.reply({
 			content: `You guessed ${word}, here is the board!\n\nHere are the left over letters:\n${emojiChain}\n_ _`,
 			files: [getBoard(game)],
 			fetchReply: true
-		}).then(message => messageReact(game, message));
+		});
 		game.lastGuess = msg.user.id;
 	}
 }
