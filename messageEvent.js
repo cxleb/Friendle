@@ -47,6 +47,21 @@ function createGame(msg, game) {
 	msg.reply("Created a new game!");
 }
 
+function messageReact(game, message)
+{
+	const usedLetters = new Set();
+	for (let i = 0; i < game.guesses.length; i++) {
+		let word = game.guesses[i];
+		for (let u = 0; u < 5; u++) {
+			if(!game.word.includes(word[u])) {
+				usedLetters.add(word[u]);
+			}
+		}
+	}
+	const letters = "abcdefghijklmnopqrstuvwxyz".split();
+	letters.filter(letter => usedLetters.has(letter)).forEach(letter => message.react(":regional_indicator_"+letter+":"));
+}
+
 function guess(msg, game) {
 	if (msg.member.user.id === game.lastGuess) {
 		msg.reply("You guessed last round!"); 
@@ -91,10 +106,11 @@ function guess(msg, game) {
 			files: [getBoard(game)]
 		});
 	} else {
-		msg.reply({
+		const message = msg.reply({
 			content: `You guessed ${word}, here is the board!`,
 			files: [getBoard(game)]
 		});
+		messageReact(game, message);
 		game.lastGuess = msg.user.id;
 	}
 }
@@ -105,10 +121,11 @@ function board(msg, game) {
 	} else if (game.guesses.length === 0) {
 		msg.reply("No guesses yet! :eyes:");
 	} else {
-		msg.reply({
+		const message = msg.reply({
 			content: "Here is the board!",
 			files: [getBoard(game)]
 		});
+		messageReact(game, message);
 	}
 }
 
