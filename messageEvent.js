@@ -13,6 +13,10 @@ function getBoard(game) {
 	const colors = { green: "#55FF44", grey: "#CCCCCC", yellow: "#FFDB58" };
 	for (let i = 0; i < game.guesses.length; i++) {
 		const ycol = i * cellSize;
+		// we dont want to highlight a letter again if its used once in the word
+		// eg. if the word has one e and the user guess is enter, we only want to highlight the first e
+		// to do this
+
 		for (let u = 0; u < 5; u++) {
 			const xcol = u * cellSize;
 			// figure out what colour the leter is
@@ -49,17 +53,6 @@ function createGame(msg, game) {
 
 function messageReact(game, message)
 {
-	const usedLetters = new Set();
-	for (let i = 0; i < game.guesses.length; i++) {
-		let word = game.guesses[i];
-		for (let u = 0; u < 5; u++) {
-			if(!game.word.includes(word[u])) {
-				usedLetters.add(word[u]);
-			}
-		}
-	}
-	const letters = "abcdefghijklmnopqrstuvwxyz".split();
-	letters.filter(letter => usedLetters.has(letter)).forEach(letter => message.react(":regional_indicator_"+letter+":"));
 }
 
 function guess(msg, game) {
@@ -106,11 +99,25 @@ function guess(msg, game) {
 			files: [getBoard(game)]
 		});
 	} else {
-		const message = msg.reply({
-			content: `You guessed ${word}, here is the board!`,
-			files: [getBoard(game)]
+		const usedLetters = new Set();
+		for (let i = 0; i < game.guesses.length; i++) {
+			let word = game.guesses[i];
+			for (let u = 0; u < 5; u++) {
+				if(!game.word.includes(word[u])) {
+					usedLetters.add(word[u]);
+				}
+			}
+		}
+		let emojiChain = "";
+		const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+		letters.filter(letter => usedLetters.has(letter) === false).forEach(letter => {
+			emojiChain += `:regional_indicator_${letter}:`;
 		});
-		messageReact(game, message);
+		msg.reply({
+			content: `You guessed ${word}, here is the board!\n\nHere are the left over letters:\n${emojiChain}\n_ _`,
+			files: [getBoard(game)],
+			fetchReply: true
+		}).then(message => messageReact(game, message));
 		game.lastGuess = msg.user.id;
 	}
 }
