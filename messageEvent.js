@@ -96,10 +96,11 @@ function guess(msg, game) {
 		});
 	} else {
 		
+		// cursed js
 		let emojiChain = "";
 		const letters = "abcdefghijklmnopqrstuvwxyz".split("");
 		const usedLetters = game.guesses.join("").split("").filter(letter => !game.word.includes(letter)).join("");
-		letters.filter(letter => !usedLetters.includes(letter)).forEach(letter => emojiChain += `:regional_indicator_${letter}:`);
+		letters.filter(letter => !usedLetters.includes(letter)).forEach(letter => emojiChain += `:regional_indicator_${letter}: `);
 
 		msg.reply({
 			content: `You guessed ${word}, here is the board!\n\nHere are the left over letters:\n${emojiChain}\n_ _`,
