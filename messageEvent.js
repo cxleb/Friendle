@@ -137,8 +137,14 @@ function board(msg, game) {
 	} else if (game.guesses.length === 0) {
 		msg.reply("No guesses yet! :eyes:");
 	} else {
-		const message = msg.reply({
-			content: "Here is the board!",
+		// cursed js
+		let emojiChain = "";
+		const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+		const usedLetters = game.guesses.join("").split("").filter(letter => !game.word.includes(letter)).join("");
+		letters.filter(letter => !usedLetters.includes(letter)).forEach(letter => emojiChain += `:regional_indicator_${letter}: `);
+
+		msg.reply({
+			content: `Here is the board!\n\nHere are the left over letters:\n${emojiChain}\n_ _`,
 			files: [getBoard(game)]
 		});
 		messageReact(game, message);
