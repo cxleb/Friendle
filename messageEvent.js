@@ -13,18 +13,38 @@ function getBoard(game) {
 	const colors = { green: "#55FF44", grey: "#CCCCCC", yellow: "#FFDB58" };
 	for (let i = 0; i < game.guesses.length; i++) {
 		const ycol = i * cellSize;
+
 		// we dont want to highlight a letter again if its used once in the word
 		// eg. if the word has one e and the user guess is enter, we only want to highlight the first e
-		// to do this
+		// to do this we get a list of all the green letters in the list
+		let iter = 0;
+		let greenLetters = game.word.split("").filter(letter => game.guesses[i].charAt(iter++) === letter);
+		// this is a list of all the yellow letters in the word, it cannot be a set
+		let yellowLetters = [];
 
 		for (let u = 0; u < 5; u++) {
 			const xcol = u * cellSize;
 			// figure out what colour the leter is
 			let color = colors.grey;
-			if (game.word.charAt(u) === game.guesses[i].charAt(u)) {
+			const char = game.guesses[i].charAt(u);
+			if (game.word.charAt(u) === char) {
 				color = colors.green;
-			} else if (game.word.includes(game.guesses[i].charAt(u))) {
-				color = colors.yellow;
+			} else if (game.word.includes(char)) {
+				// first we figure out how many times the letter appears in the word
+				// we then figure out how many times the letter appears in the right spot
+				// and then finally get how many times its in the wrong spot
+				const wordCount = game.word.split("").filter(letter => letter === char).length;
+				const greenCount = greenLetters.filter(letter => letter === char).length;
+				const yellowCount = yellowLetters.filter(letter => letter === char).length;
+				// if the amount of times its correctly used is same as the word count then do nothing, which leaves it as grey
+				if(wordCount == greenCount)
+					{} // do nothing 
+				// however if the amount of times it appears in the word is less then the amount of times it is 
+				// listed as a yellow letter then we make it yellow and list it as a yellow letter for future
+				else if(wordCount > yellowCount) {
+					color = colors.yellow;
+					yellowLetters.push(char);
+				} 				
 			}
 
 			context.fillStyle = color;
