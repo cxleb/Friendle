@@ -147,7 +147,6 @@ function board(msg, game) {
 			content: `Here is the board!\n\nHere are the left over letters:\n${emojiChain}\n_ _`,
 			files: [getBoard(game)]
 		});
-		messageReact(game, message);
 	}
 }
 
